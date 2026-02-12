@@ -147,15 +147,42 @@ const container = document.getElementById("mediaContainer");
 function loadMedia(index) {
   container.innerHTML = "";
 
-  const img = document.createElement("img");
-  img.src = media[index];
-  container.appendChild(img);
+  // Final slide → just text (no media)
+  if (media[index] === "message") {
+    return;
+  }
 
-  setTimeout(() => {
-    img.style.opacity = 1;
-    img.style.transform = "scale(1)";
-  }, 100);
+  // If video
+  if (media[index].endsWith(".mp4")) {
+    const video = document.createElement("video");
+    video.src = media[index];
+    video.controls = true;
+    video.style.width = "85%";
+    video.style.maxWidth = "450px";
+    video.style.borderRadius = "20px";
+    video.style.opacity = 0;
+    video.style.transform = "scale(0.96)";
+    video.style.transition = "opacity 1.2s ease, transform 1.2s ease";
+
+    container.appendChild(video);
+
+    setTimeout(() => {
+      video.style.opacity = 1;
+      video.style.transform = "scale(1)";
+    }, 100);
+
+  } else {
+    const img = document.createElement("img");
+    img.src = media[index];
+    container.appendChild(img);
+
+    setTimeout(() => {
+      img.style.opacity = 1;
+      img.style.transform = "scale(1)";
+    }, 100);
+  }
 }
+
 
 loadMedia(0);
 
