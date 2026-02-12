@@ -180,9 +180,26 @@ slider.addEventListener("input", () => {
   const index = slider.value;
 
   dateText.style.opacity = 0;
+
   setTimeout(() => {
+
+    // If it's the last slide (Valentine message)
+    if (index == dates.length - 1) {
+      dateText.style.fontSize = "24px";
+      dateText.style.lineHeight = "1.8";
+      dateText.style.color = "#ff69b4";
+      dateText.style.fontWeight = "500";
+    } else {
+      dateText.style.fontSize = "18px";
+      dateText.style.lineHeight = "1.4";
+      dateText.style.color = "#333";
+      dateText.style.fontWeight = "400";
+    }
+
+    // Allow line breaks
     dateText.innerHTML = dates[index].replace(/\n/g, "<br>");
     dateText.style.opacity = 1;
+
   }, 250);
 
   loadMedia(index);
