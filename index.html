@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story 🤍</title>
+
+<style>
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #333;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Date text */
+#dateText {
+  margin-bottom: 25px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  transition: opacity 0.4s ease;
+}
+
+/* Media */
+#mediaContainer img,
+#mediaContainer video {
+  width: 85%;
+  max-width: 450px;
+  border-radius: 20px;
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+  box-shadow: 0 10px 40px rgba(255, 105, 180, 0.25);
+}
+
+/* Slider */
+.slider-container {
+  position: absolute;
+  bottom: 70px;
+  width: 80%;
+}
+
+input[type="range"] {
+  width: 100%;
+  appearance: none;
+  height: 6px;
+  border-radius: 5px;
+  background: #f3c1d6;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ff69b4;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ff69b4;
+}
+
+/* Pink floating hearts */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 18px;
+  animation: floatUp linear forwards;
+  opacity: 0.7;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateY(-110vh) scale(1.3);
+    opacity: 0;
+  }
+}
+
+.footer-text {
+  position: absolute;
+  bottom: 25px;
+  font-size: 13px;
+  opacity: 0.6;
+}
+</style>
+</head>
+
+<body>
+
+<h2 id="dateText">The Day We Met 🤍</h2>
+
+<div id="mediaContainer"></div>
+
+<div class="slider-container">
+  <!-- 🔴 CHANGE max TO (total slides - 1) -->
+  <input type="range" min="0" max="6" value="0" step="1" id="timeline">
+</div>
+
+<div class="footer-text">Slide slowly 🤍</div>
+
+<script>
+
+/* ===============================
+   ✏️ EDIT DATES HERE
+================================ */
+const dates = [
+  "10th October 2023: The Day We Met For First Time 🤍",
+  "October 21st 2023: The First Time Seeing You In Saree 💕",
+  "August 16 2024: You Looked So Hot With The Pink Top And The Little Laughs Of Us",
+  "October 2nd 2024: The Flowers You Gave Me And The Hug And Our First Anniversary I Love You",
+  "January 11th 2025: I Still Remember This Kiss 😋",
+  "February 15th 2025: The Time We Spent Staring At Each Other And You Smoked And Looked Sooo Hot 💕🔥",
+  "April 1st 2025: That Dress On You And Ugh I Wanted To Smash You And Cuddle So Much ❤️"
+];
+
+const media = [
+  "https://drive.google.com/uc?export=view&id=1mIeCyAWYqrplxq2KmBL_Faa7kPOcPHRu",
+  "https://drive.google.com/uc?export=view&id=1hWiqf_UnIc9UWgDf3vJyZ0MYKOBaBeN4",
+  "https://drive.google.com/uc?export=view&id=1hUBGPuz-xMkw223HijUcHEnB7LhHUJQv",
+  "https://drive.google.com/uc?export=view&id=1hUBGPuz-xMkw223HijUcHEnB7LhHUJQv",
+  "https://drive.google.com/uc?export=view&id=1hUBGPuz-xMkw223HijUcHEnB7LhHUJQv",
+  "https://drive.google.com/uc?export=view&id=1YVmVJOWj1_a5pAou3MJ3QUpkWrmYvEbm",
+  "https://drive.google.com/uc?export=view&id=1Tqv6P_Gi1-5Vc4o3IGJEvw460YFTq1g4"
+];
+
+
+const slider = document.getElementById("timeline");
+const dateText = document.getElementById("dateText");
+const container = document.getElementById("mediaContainer");
+
+/* Load media */
+function loadMedia(index) {
+  container.innerHTML = "";
+
+  const img = document.createElement("img");
+  img.src = media[index];
+  container.appendChild(img);
+
+  setTimeout(() => {
+    img.style.opacity = 1;
+    img.style.transform = "scale(1)";
+  }, 100);
+}
+
+loadMedia(0);
+
+/* Smooth slide animation */
+function smoothSlideTo(target) {
+  let start = parseInt(slider.value);
+  let step = start < target ? 1 : -1;
+
+  let interval = setInterval(() => {
+    start += step;
+    slider.value = start;
+    slider.dispatchEvent(new Event("input"));
+
+    if (start === target) {
+      clearInterval(interval);
+    }
+  }, 200);
+}
+
+/* When manually sliding */
+slider.addEventListener("input", () => {
+  const index = slider.value;
+
+  dateText.style.opacity = 0;
+  setTimeout(() => {
+    dateText.textContent = dates[index];
+    dateText.style.opacity = 1;
+  }, 250);
+
+  loadMedia(index);
+});
+
+/* Optional: Auto cinematic slide (comment out if not needed) */
+/*
+let currentIndex = 0;
+setInterval(() => {
+  currentIndex++;
+  if (currentIndex >= media.length) return;
+  smoothSlideTo(currentIndex);
+}, 5000);
+*/
+
+/* Pink floating hearts */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💗";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 12 + 14 + "px";
+  heart.style.animationDuration = Math.random() * 4 + 6 + "s";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 10000);
+}
+
+setInterval(createHeart, 1200);
+
+</script>
+
+</body>
+</html>
