@@ -181,7 +181,7 @@ slider.addEventListener("input", () => {
 
   dateText.style.opacity = 0;
   setTimeout(() => {
-    dateText.textContent = dates[index];
+    dateText.innerHTML = dates[index].replace(/\n/g, "<br>");
     dateText.style.opacity = 1;
   }, 250);
 
